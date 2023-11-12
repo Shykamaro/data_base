@@ -1,0 +1,30 @@
+CREATE TABLE "public.Users" (
+	"user_id" serial PRIMARY KEY,
+	"user_name" text NOT NULL,
+	"reg_date" timestamp NOT NULL,
+	"email" text NOT NULL UNIQUE,
+	"password" text NOT NULL,
+	"phone_number" text NOT NULL UNIQUE
+);
+
+CREATE TABLE "public.Compositions" (
+	"composition_id" serial PRIMARY KEY,
+	"user_id" serial NOT NULL,
+	"composition_name" text NOT NULL,
+	"create_date" timestamp NOT NULL,
+	"file_format" text NOT NULL,
+	"tags" text NOT NULL,
+	"logo" text NOT NULL,
+	"genre" text NOT NULL,
+	CONSTRAINT "Compositions_fk0" FOREIGN KEY ("user_id") REFERENCES "Users"("user_id") ON DELETE CASCADE
+);
+
+CREATE TABLE "public.comments" (
+	"comment_id" serial PRIMARY KEY,
+	"user_id" serial NOT NULL,
+	"composition_id" serial NOT NULL,
+	"comment_text" text NOT NULL,
+	"comment_date" timestamp NOT NULL,
+	CONSTRAINT "comments_fk0" FOREIGN KEY ("user_id") REFERENCES "Users"("user_id") ON DELETE CASCADE,
+	CONSTRAINT "comments_fk1" FOREIGN KEY ("composition_id") REFERENCES "Compositions"("composition_id") ON DELETE CASCADE
+);
